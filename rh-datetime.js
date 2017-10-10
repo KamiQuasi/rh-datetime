@@ -37,19 +37,13 @@ class RHDatetime extends HTMLElement {
       return;
     }
 
-    const options = this._getOptions();
-
     this._datetime = Date.parse(val);
-    this._datetimeFormatted = new Intl.DateTimeFormat(navigator.language, options).format(this._datetime);
-    this.shadowRoot.querySelector('span').innerText = this._datetimeFormatted;
+
+    this.shadowRoot.querySelector('span').innerText = this._getTypeString();
   }
 
   get type() {
-    return this._type;
-  }
-
-  get datetimeFormatted() {
-    return this._datetimeFormatted;
+    return this._type || 'local';
   }
 
   static get observedAttributes() {
@@ -108,6 +102,59 @@ class RHDatetime extends HTMLElement {
     }
 
     return options;
+  }
+
+  _getTypeString() {
+    const options = this._getOptions();
+    let dt = '';
+    switch (this.type) {
+      case 'local':
+        dt = new Intl.DateTimeFormat(navigator.language, options).format(this._datetime);
+        break;
+      case 'adverb':
+        dt = this._getTimeAdverbial(this._datetime - Date.now());
+        break;
+      default:
+        dt = this._datetime;
+    }
+    return dt;
+  }
+
+  _getTimeAdverbial(ms) {
+    const tense = ms > 0 ? 'until' : 'ago';
+    let str = 'just now';
+    // Based off of Github Relative Time
+    // https://github.com/github/time-elements/blob/master/src/relative-time.js
+    const s = Math.round(Math.abs(ms) / 1000)
+    const min = Math.round(s / 60)
+    const h = Math.round(min / 60)
+    const d = Math.round(h / 24)
+    const m = Math.round(d / 30)
+    const y = Math.round(m / 12)
+    if (m >= 18) {
+      str = y + ' years'
+    } else if (m >= 12) {
+      str = 'a year'
+    } else if (d >= 45) {
+      str = m + ' months'
+    } else if (d >= 30) {
+      str = 'a month'
+    } else if (h >= 36) {
+      str = d + ' days'
+    } else if (h >= 24) {
+      str = 'a day'
+    } else if (min >= 90) {
+      str = h + ' hours'
+    } else if (min >= 45) {
+      str = 'an hour'
+    } else if (s >= 90) {
+      str = min + ' minutes'
+    } else if (s >= 45) {
+      str = 'a minute'
+    } else if (s >= 10) {
+      str = s + ' seconds'
+    }
+    return str !== 'just now' ? `${str} ${tense}` : str;
   }
 }
 
