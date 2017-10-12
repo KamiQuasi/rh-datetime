@@ -12,11 +12,13 @@
         document.body.removeAttribute('unresolved');
 
         var realtime = document.getElementById('realtime');
-        var adverb1 = document.getElementById('minutesago');
-        var adverb2 = document.getElementById('hoursuntil');
+        var relative1 = document.getElementById('minutesago');
+        var relative2 = document.getElementById('hoursuntil');
+        var relative3 = document.getElementById('daysuntil');
 
-        adverb1.setAttribute('datetime', new Date(Date.now() - 600000).toString());
-        adverb2.setAttribute('datetime', new Date(Date.now() + 6000000).toString());
+        relative1.setAttribute('datetime', new Date(Date.now() - 600000).toString());
+        relative2.setAttribute('datetime', new Date(Date.now() + 6000000).toString());
+        relative3.setAttribute('datetime', new Date(Date.now() + 200000000).toString());
 
         function timer() {
           realtime.setAttribute('datetime', new Date());
@@ -67,27 +69,30 @@
       <h3>Time Adverbial</h3>
       <p>
         <rh-datetime
-          type="adverb"
+          type="relative"
           datetime="Mon Aug 2 15:04:05 MST 2017">
           Mon Jan 2 15:04:05 MST 2006
         </rh-datetime>
       </p>
       <p>
-        <rh-datetime id="minutesago" type="adverb"></rh-datetime>
+        <rh-datetime id="minutesago" type="relative"></rh-datetime>
       </p>
       <p>
-        <rh-datetime id="hoursuntil" type="adverb"></rh-datetime>
+        <rh-datetime id="hoursuntil" type="relative"></rh-datetime>
+      </p>
+      <p>
+        <rh-datetime id="daysuntil" type="relative"></rh-datetime>
       </p>
       <p>
         <rh-datetime
-          type="adverb"
+          type="relative"
           datetime="Mon Jan 2 15:04:05 MST 2018">
           Mon Jan 2 15:04:05 MST 2006
         </rh-datetime>
       </p>
       <p>
         <rh-datetime
-          type="adverb"
+          type="relative"
           datetime="Mon Jan 2 15:04:05 MST 2026">
           Mon Jan 2 15:04:05 MST 2006
         </rh-datetime>

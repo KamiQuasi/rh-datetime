@@ -111,8 +111,8 @@ class RHDatetime extends HTMLElement {
       case 'local':
         dt = new Intl.DateTimeFormat(navigator.language, options).format(this._datetime);
         break;
-      case 'adverb':
-        dt = this._getTimeAdverbial(this._datetime - Date.now());
+      case 'relative':
+        dt = this._getTimeRelative(this._datetime - Date.now());
         break;
       default:
         dt = this._datetime;
@@ -120,7 +120,7 @@ class RHDatetime extends HTMLElement {
     return dt;
   }
 
-  _getTimeAdverbial(ms) {
+  _getTimeRelative(ms) {
     const tense = ms > 0 ? 'until' : 'ago';
     let str = 'just now';
     // Based off of Github Relative Time
