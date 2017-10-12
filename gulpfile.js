@@ -48,7 +48,7 @@ gulp.task('transpile', () => {
 });
 
 gulp.task('watch', () => {
-  watcher = gulp.watch(['./rh-datetime.js'], gulp.series('clean', 'compile'));
+  watcher = gulp.watch(['./rh-datetime.js'], gulp.series('clean', 'compile', 'transpile'));
   return watcher;
 });
 

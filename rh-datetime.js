@@ -16,8 +16,6 @@ class RHDatetime extends HTMLElement {
   constructor() {
     super();
 
-    this._type = this.getAttribute('type');
-
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(datetimeTemplate.content.cloneNode(true));
   }
@@ -106,10 +104,11 @@ class RHDatetime extends HTMLElement {
 
   _getTypeString() {
     const options = this._getOptions();
+    const locale = this.getAttribute('locale') || navigator.language;
     let dt = '';
     switch (this.type) {
       case 'local':
-        dt = new Intl.DateTimeFormat(navigator.language, options).format(this._datetime);
+        dt = new Intl.DateTimeFormat(locale, options).format(this._datetime);
         break;
       case 'relative':
         dt = this._getTimeRelative(this._datetime - Date.now());
