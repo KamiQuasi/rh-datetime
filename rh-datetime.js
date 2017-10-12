@@ -44,6 +44,14 @@ class RHDatetime extends HTMLElement {
     return this._type || 'local';
   }
 
+  set type(val) {
+    if (this._type === val) {
+      return;
+    }
+
+    this._type = val;
+  }
+
   static get observedAttributes() {
     return ['datetime', 'type'];
   }
@@ -51,6 +59,9 @@ class RHDatetime extends HTMLElement {
   attributeChangedCallback(attr, oldVal, newVal) {
     if (attr === 'datetime') {
       this.datetime = newVal;
+    }
+    if (attr === 'type') {
+      this.type = newVal;
     }
   }
 
