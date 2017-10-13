@@ -18,6 +18,8 @@ class RHDatetime extends HTMLElement {
 
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(datetimeTemplate.content.cloneNode(true));
+
+    this.type = this.getAttribute('type') || 'local';
   }
 
   connectedCallback() {
@@ -41,7 +43,7 @@ class RHDatetime extends HTMLElement {
   }
 
   get type() {
-    return this._type || 'local';
+    return this._type;
   }
 
   set type(val) {
@@ -57,12 +59,7 @@ class RHDatetime extends HTMLElement {
   }
 
   attributeChangedCallback(attr, oldVal, newVal) {
-    if (attr === 'datetime') {
-      this.datetime = newVal;
-    }
-    if (attr === 'type') {
-      this.type = newVal;
-    }
+    this[attr] = newVal;
   }
 
   _getOptions() {
